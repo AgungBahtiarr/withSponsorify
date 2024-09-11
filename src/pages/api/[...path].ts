@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import type { APIRoute } from "astro";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { user } from "../../schema";
+import { user } from "@/schema";
 import postgres from "postgres";
 const client = postgres(import.meta.env.DATABASE_URL);
 const db = drizzle(client);
