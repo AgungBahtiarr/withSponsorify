@@ -1,7 +1,13 @@
 {
   "name": "sponsorify",
-  "type": "module",
   "version": "0.0.1",
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/db": "^0.14.1",
+    "astro": "^4.15.6",
+    "hono": "^4.6.1",
+    "typescript": "^5.6.2"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,15 +17,5 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate"
   },
-  "dependencies": {
-    "@astrojs/check": "^0.9.3",
-    "astro": "^4.15.4",
-    "drizzle-orm": "^0.33.0",
-    "hono": "^4.5.11",
-    "postgres": "^3.4.4",
-    "typescript": "^5.6.2"
-  },
-  "devDependencies": {
-    "drizzle-kit": "^0.24.2"
-  }
+  "type": "module"
 }
