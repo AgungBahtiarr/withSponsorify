@@ -1,11 +1,15 @@
 import { db, Users } from "astro:db";
+import { nanoid } from "nanoid";
 // https://astro.build/db/seed
 export default async function seed() {
-  await db.insert(Users).values([
-    {
-      name: "Agung Bahtiar",
-      email: "ab@gmail.com",
-      password: "1234",
-    },
-  ]);
+  for (let index = 0; index < 9; index++) {
+    await db.insert(Users).values([
+      {
+        id: nanoid(),
+        name: `Agung Bahtiar ${index}`,
+        email: `ab${index}@gmail.com`,
+        password: `1234`,
+      },
+    ]);
+  }
 }

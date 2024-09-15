@@ -4,7 +4,7 @@ import { column, defineDb, defineTable } from "astro:db";
 
 const Users = defineTable({
   columns: {
-    id: column.number({ primaryKey: true }),
+    id: column.text({ primaryKey: true }),
     name: column.text(),
     email: column.text({ unique: true }),
     password: column.text(),
