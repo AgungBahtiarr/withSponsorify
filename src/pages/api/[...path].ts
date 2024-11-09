@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 import type { APIRoute } from "astro";
-
 import { db, Events, Sponsors, Users } from "astro:db";
-
 import auth from "@/controllers/auth";
 
 const app = new Hono().basePath("/api");
