@@ -1,6 +1,5 @@
 import { Hono } from "hono";
-import { jwt, sign } from "hono/jwt";
-import type { JwtVariables } from "hono/jwt";
+import { sign } from "hono/jwt";
 import { db, eq, Users } from "astro:db";
 import { nanoid } from "nanoid";
 import bcrypt from "bcrypt";
