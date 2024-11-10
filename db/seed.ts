@@ -22,6 +22,7 @@ export default async function () {
   ]);
 
   const [eventOrganizerRole, sponsorRole] = await db.select().from(Roles);
+  console.log(eventOrganizerRole.id);
 
   // Seed Users
   const hashedPassword = await bcrypt.hash("password123", 10);
@@ -31,15 +32,15 @@ export default async function () {
     {
       id: user1Id,
       roleId: eventOrganizerRole.id,
-      name: "John Doe",
-      email: "john@example.com",
+      name: "Agung Bahtiar EO",
+      email: "agungeo@gmail.com",
       password: hashedPassword,
     },
     {
       id: user2Id,
       roleId: sponsorRole.id,
-      name: "Jane Smith",
-      email: "jane@example.com",
+      name: "Agung Bahtiar Sponsor",
+      email: "agungsponsor@gmail.com",
       password: hashedPassword,
     },
   ]);
