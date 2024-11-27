@@ -91,6 +91,7 @@ app.patch("/:id", async (c) => {
     categoryId,
     budget,
     image,
+    status,
   } = Object.fromEntries(formData);
 
   try {
@@ -104,6 +105,7 @@ app.patch("/:id", async (c) => {
         proposal: proposal.toString() || undefined,
         startDate: new Date(startDate.toString()) || undefined,
         userId: userId.toString() || undefined,
+        status: status.toString() || undefined,
         endDate: new Date(endDate.toString()) || undefined,
         categoryId: categoryId.toString() || undefined,
         budget: Number(budget) || undefined,

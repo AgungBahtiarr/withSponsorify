@@ -33,7 +33,7 @@ const Events = defineTable({
     proposal: column.text(),
     budget: column.number(),
     image: column.text(),
-    status: column.text(), // active/inactive/completed
+    status: column.text({ default: "active" }), // active/inactive/completed
     startDate: column.date(),
     endDate: column.date(),
     categoryId: column.text({ references: () => Categories.columns.id }),
@@ -56,7 +56,7 @@ const Sponsors = defineTable({
     phone: column.text(),
     maxSubmissionDate: column.number(),
     image: column.text(),
-    status: column.text(), // active/inactive
+    status: column.text({ default: "active" }), // active/inactive
     userId: column.text({ references: () => Users.columns.id }),
     createdAt: column.date({ default: NOW }),
     updatedAt: column.date({ default: NOW }),
