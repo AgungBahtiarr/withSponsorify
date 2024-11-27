@@ -137,7 +137,7 @@ app.delete("/:id", async (c) => {
   try {
     const event = await db
       .update(Events)
-      .set({ updatedAt: new Date() })
+      .set({ deletedAt: new Date(), updatedAt: new Date() })
       .where(eq(Events.id, id))
       .returning({ id: Events.id });
 
