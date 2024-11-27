@@ -33,12 +33,23 @@ auth.post("/register", async (c) => {
     name,
     email,
     password: (await bcrypt.hash(password, 10)).toString(),
+    isVerified: true,
   });
+
+  const userData = await db
+    .select({
+      id: Users.id,
+      name: Users.name,
+      email: Users.email,
+      roleId: Users.roleId,
+    })
+    .from(Users)
+    .where(eq(Users.email, email));
 
   return c.json(
     {
       message: "Register Success",
-      data: user,
+      data: userData,
     },
     201
   );
