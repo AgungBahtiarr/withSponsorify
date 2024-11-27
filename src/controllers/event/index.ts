@@ -1,14 +1,11 @@
-import { and, db, eq, Events, NOW } from "astro:db";
+import { and, db, eq, Events, isNull, NOW } from "astro:db";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
-  const events = await db
-    .select()
-    .from(Events)
-    .where(eq(Events.deletedAt, null));
+  const events = await db.select().from(Events).where(isNull(Events.deletedAt));
   return c.json({
     data: events,
   });
@@ -19,7 +16,7 @@ app.get("/:id", async (c) => {
   const event = await db
     .select()
     .from(Events)
-    .where(and(eq(Events.id, id), eq(Events.deletedAt, null)));
+    .where(and(eq(Events.id, id), isNull(Events.deletedAt)));
   return c.json({
     data: event,
   });
