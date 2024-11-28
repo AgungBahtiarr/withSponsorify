@@ -23,22 +23,22 @@ app.get("/:id", async (c) => {
 });
 
 app.post("/", async (c) => {
-  const formData = await c.req.formData();
-  const {
-    name,
-    description,
-    email,
-    location,
-    proposal,
-    startDate,
-    userId,
-    endDate,
-    categoryId,
-    budget,
-    image,
-  } = Object.fromEntries(formData);
-
   try {
+    const formData = await c.req.formData();
+    const proposalPath = await c.get("proposal");
+    const imagePath = await c.get("image");
+    const {
+      name,
+      description,
+      email,
+      location,
+      startDate,
+      userId,
+      endDate,
+      categoryId,
+      budget,
+    } = Object.fromEntries(formData);
+
     const event = await db
       .insert(Events)
       .values({
@@ -47,18 +47,22 @@ app.post("/", async (c) => {
         description: description.toString(),
         email: email.toString(),
         location: location.toString(),
-        proposal: proposal.toString(),
-        budget: Number(budget) || 0, // konversi ke number
-        image: image?.toString() || "",
+        proposal: proposalPath.toString(),
+        budget: Number(budget) || 0,
+        image: imagePath.toString() || "",
         status: "active",
-        startDate: new Date(startDate.toString()), // konversi ke Date object
-        endDate: new Date(endDate.toString()), // konversi ke Date object
+        startDate: new Date(startDate.toString()),
+        endDate: new Date(endDate.toString()),
         categoryId: categoryId.toString(),
         userId: userId.toString(),
         createdAt: new Date(),
         updatedAt: new Date(),
       })
-      .returning({ id: Events.id });
+      .returning({
+        id: Events.id,
+        proposal: Events.proposal,
+        image: Events.image,
+      });
 
     return c.json({
       success: true,
@@ -66,13 +70,10 @@ app.post("/", async (c) => {
     });
   } catch (error) {
     console.error("Error creating event:", error);
-    return c.json(
-      {
-        success: false,
-        error: error.message,
-      },
-      500
-    );
+    return c.json({
+      success: false,
+      error: error.message,
+    });
   }
 });
 

@@ -7,6 +7,8 @@ import sponsor from "@/controllers/sponsor";
 import { jwt } from "hono/jwt";
 import isEvent from "@/middleware/isEvent";
 import { prettyJSON } from "hono/pretty-json";
+import uploadProposal from "@/lib/uploadProposal";
+import uploadImage from "@/lib/uploadImage";
 
 const app = new Hono().basePath("/api");
 
@@ -26,7 +28,7 @@ app.get(
 
 app.route("/auth", auth);
 
-app.route("/events", event);
+app.use(uploadProposal, uploadImage).route("/events", event);
 
 app.route("/sponsors", sponsor);
 
