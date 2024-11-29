@@ -1,7 +1,7 @@
 import { and, db, eq, isNull, Sponsors } from "astro:db";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
-
+import uploadImage from "@/lib/uploadImage";
 const app = new Hono();
 
 app.get("/", async (c) => {
@@ -30,18 +30,18 @@ app.get("/:id", async (c) => {
   });
 });
 
-app.post("/", async (c) => {
+app.use(uploadImage).post("/", async (c) => {
   const formData = await c.req.formData();
+  const imagePath = await c.get("imageSponsor");
+  const logoPath = await c.get("logoSponsor");
   const {
     name,
     description,
     address,
     website,
-    logo,
     contactPerson,
     phone,
     maxSubmissionDate,
-    image,
     userId,
   } = Object.fromEntries(formData);
 
@@ -54,8 +54,8 @@ app.post("/", async (c) => {
         description: description.toString(),
         address: address.toString(),
         contactPerson: contactPerson.toString(),
-        image: image.toString(),
-        logo: logo.toString(),
+        image: imagePath.toString(),
+        logo: logoPath.toString(),
         maxSubmissionDate: Number(maxSubmissionDate),
         phone: phone.toString(),
         userId: userId.toString(),

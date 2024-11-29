@@ -1,6 +1,8 @@
 import { and, db, eq, Events, isNull, NOW } from "astro:db";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
+import uploadProposal from "@/lib/uploadProposal";
+import uploadImage from "@/lib/uploadImage";
 
 const app = new Hono();
 
@@ -22,7 +24,7 @@ app.get("/:id", async (c) => {
   });
 });
 
-app.post("/", async (c) => {
+app.use(uploadProposal, uploadImage).post("/", async (c) => {
   try {
     const formData = await c.req.formData();
     const proposalPath = await c.get("proposal");
