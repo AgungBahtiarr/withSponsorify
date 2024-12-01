@@ -10,7 +10,8 @@
     "file-type": "^19.6.0",
     "hono": "^4.6.12",
     "nanoid": "^5.0.9",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^3.91.0"
   },
   "scripts": {
     "dev": "astro dev",

@@ -27,7 +27,7 @@ auth.post("/register", async (c) => {
     );
   }
 
-  const user = await db.insert(Users).values({
+  await db.insert(Users).values({
     id: nanoid(),
     roleId,
     name,

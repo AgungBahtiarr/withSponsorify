@@ -1,5 +1,5 @@
 import { and, db, eq, Events, isNull, NOW } from "astro:db";
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { nanoid } from "nanoid";
 import uploadProposal from "@/lib/uploadProposal";
 import uploadImage from "@/lib/uploadImage";
@@ -24,11 +24,16 @@ app.get("/:id", async (c) => {
   });
 });
 
-app.use(uploadProposal, uploadImage).post("/", async (c) => {
+type Variables = {
+  proposal: string;
+  image: string;
+};
+
+app.use(uploadProposal, uploadImage).post("/", async (c: Context) => {
   try {
     const formData = await c.req.formData();
-    const proposalPath = await c.get("proposal");
-    const imagePath = await c.get("image");
+    const proposalPath = c.get("proposal");
+    const imagePath = c.get("image");
     const {
       name,
       description,

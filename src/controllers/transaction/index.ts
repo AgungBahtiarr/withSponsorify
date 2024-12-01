@@ -1,4 +1,4 @@
-import { and, db, eq, isNull, ne, Transactions } from "astro:db";
+import { and, db, eq, isNull, Transactions } from "astro:db";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
 

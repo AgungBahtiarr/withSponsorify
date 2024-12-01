@@ -2,8 +2,9 @@ import { nanoid } from "nanoid";
 import { fileTypeFromBuffer } from "file-type";
 import path from "path";
 import { createWriteStream } from "fs";
+import type { Context, Next } from "hono";
 
-const uploadImage = async (c, next) => {
+const uploadImage = async (c: Context, next: Next) => {
   const body = await c.req.parseBody();
   const image = body["image"] as File;
 
@@ -17,7 +18,8 @@ const uploadImage = async (c, next) => {
   // Proses file
   const imageFile = await image.arrayBuffer();
   const buffer = Buffer.from(imageFile);
-  const fileType = await fileTypeFromBuffer(buffer);
+  const uint8Array = new Uint8Array(buffer);
+  const fileType = await fileTypeFromBuffer(uint8Array);
 
   if (!fileType) {
     return c.json({
@@ -46,7 +48,8 @@ const uploadImage = async (c, next) => {
     }
     const logoFIle = await logo.arrayBuffer();
     const bufferLogo = Buffer.from(logoFIle);
-    const fileTypeLogo = await fileTypeFromBuffer(bufferLogo);
+    const logoUint8Array = new Uint8Array(bufferLogo);
+    const fileTypeLogo = await fileTypeFromBuffer(logoUint8Array);
 
     if (!fileTypeLogo) {
       return c.json({

@@ -2,7 +2,8 @@ import { and, db, eq, isNull, Sponsors } from "astro:db";
 import { Hono } from "hono";
 import { nanoid } from "nanoid";
 import uploadImage from "@/lib/uploadImage";
-const app = new Hono();
+
+const app = new Hono<{ Variables: Variables }>();
 
 app.get("/", async (c) => {
   const sponsors = await db
@@ -30,10 +31,15 @@ app.get("/:id", async (c) => {
   });
 });
 
+type Variables = {
+  imageSponsor: string;
+  logoSponsor: string;
+};
+
 app.use(uploadImage).post("/", async (c) => {
   const formData = await c.req.formData();
-  const imagePath = await c.get("imageSponsor");
-  const logoPath = await c.get("logoSponsor");
+  const imagePath = c.get("imageSponsor");
+  const logoPath = c.get("logoSponsor");
   const {
     name,
     description,
