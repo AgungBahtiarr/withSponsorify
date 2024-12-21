@@ -13,6 +13,8 @@ import {
   SponsorCategories,
   Reviews,
   Notifications,
+  SponsorLevels,
+  EventSponsorLevels,
 } from "astro:db";
 import bcrypt from "bcrypt";
 import { nanoid } from "nanoid";
@@ -104,6 +106,18 @@ export default async function () {
     { id: nanoid(), status: "failed" },
   ]);
 
+  const platinumId = nanoid();
+  const goldId = nanoid();
+  const silverId = nanoid();
+  const bronzeId = nanoid();
+
+  await db.insert(SponsorLevels).values([
+    { id: platinumId, name: "Platinum" },
+    { id: goldId, name: "Gold" },
+    { id: silverId, name: "Silver" },
+    { id: bronzeId, name: "Bronze" },
+  ]);
+
   // Seed Events
   const eventId = nanoid();
   await db.insert(Events).values([
@@ -121,6 +135,70 @@ export default async function () {
       endDate: new Date("2024-07-17"),
       categoryId: techCategoryId,
       userId: user1Id,
+    },
+  ]);
+
+  const platinumEventLevelId = nanoid();
+  const goldEventLevelId = nanoid();
+  const silverEventLevelId = nanoid();
+  const bronzeEventLevelId = nanoid();
+
+  await db.insert(EventSponsorLevels).values([
+    {
+      id: platinumEventLevelId,
+      eventId: eventId,
+      sponsorLevelId: platinumId,
+      price: 50000000,
+      maxSlot: 2,
+      remainingSlot: 2,
+      benefits: JSON.stringify([
+        "Logo placement at main stage",
+        "VIP booth",
+        "Speaking session",
+        "Social media promotion",
+        "10 event tickets",
+      ]),
+    },
+    {
+      id: goldEventLevelId,
+      eventId: eventId,
+      sponsorLevelId: goldId,
+      price: 30000000,
+      maxSlot: 4,
+      remainingSlot: 4,
+      benefits: JSON.stringify([
+        "Logo placement at secondary stage",
+        "Standard booth",
+        "Social media promotion",
+        "5 event tickets",
+      ]),
+    },
+    {
+      id: silverEventLevelId,
+      eventId: eventId,
+      sponsorLevelId: silverId,
+      price: 20000000,
+      maxSlot: 6,
+      remainingSlot: 6,
+      benefits: JSON.stringify([
+        "Logo placement at venue",
+        "Small booth",
+        "Social media mention",
+        "3 event tickets",
+      ]),
+    },
+    {
+      id: bronzeEventLevelId,
+      eventId: eventId,
+      sponsorLevelId: bronzeId,
+      price: 10000000,
+      maxSlot: 8,
+      remainingSlot: 8,
+      benefits: JSON.stringify([
+        "Logo placement at website",
+        "Social media mention",
+        "2 event tickets",
+      ]),
     },
   ]);
 
@@ -165,8 +243,9 @@ export default async function () {
       eventId: eventId,
       sponsorId: sponsorId,
       userId: user2Id,
-      totalFund: 5000000,
-      fundingType: "partial",
+      eventSponsorLevelId: platinumEventLevelId, // Add this line
+      totalFund: 50000000, // Match with platinum price
+      fundingType: "full", // Changed to full since it matches the level price
       comment: "Sponsorship for Tech Conference 2024",
       accountNumber: "1234567890",
       bankName: "Bank Central",

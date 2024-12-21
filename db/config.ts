@@ -85,13 +85,16 @@ const Transactions = defineTable({
     eventId: column.text({ references: () => Events.columns.id }),
     sponsorId: column.text({ references: () => Sponsors.columns.id }),
     userId: column.text({ references: () => Users.columns.id }),
+    eventSponsorLevelId: column.text({
+      references: () => EventSponsorLevels.columns.id,
+    }),
     totalFund: column.number(),
     fundingType: column.text(), // full/partial
-    comment: column.text(),
-    accountNumber: column.text(),
-    bankName: column.text(),
-    accountName: column.text(),
-    proofOfPayment: column.text(),
+    comment: column.text({ optional: true }),
+    accountNumber: column.text({ optional: true }),
+    bankName: column.text({ optional: true }),
+    accountName: column.text({ optional: true }),
+    proofOfPayment: column.text({ optional: true }),
     expiredAt: column.date(),
     transactionStatusId: column.text({
       references: () => TransactionsStatuses.columns.id,
@@ -102,6 +105,30 @@ const Transactions = defineTable({
     withdrawStatusId: column.text({
       references: () => WithdrawStatuses.columns.id,
     }),
+    createdAt: column.date({ default: NOW }),
+    updatedAt: column.date({ default: NOW }),
+    deletedAt: column.date({ optional: true }),
+  },
+});
+
+const SponsorLevels = defineTable({
+  columns: {
+    id: column.text({ primaryKey: true }),
+    name: column.text(), // platinum, gold, silver, bronze
+    createdAt: column.date({ default: NOW }),
+    updatedAt: column.date({ default: NOW }),
+  },
+});
+
+const EventSponsorLevels = defineTable({
+  columns: {
+    id: column.text({ primaryKey: true }),
+    eventId: column.text({ references: () => Events.columns.id }),
+    sponsorLevelId: column.text({ references: () => SponsorLevels.columns.id }),
+    price: column.number(), 
+    maxSlot: column.number(), 
+    remainingSlot: column.number(), 
+    benefits: column.text(), 
     createdAt: column.date({ default: NOW }),
     updatedAt: column.date({ default: NOW }),
     deletedAt: column.date({ optional: true }),
@@ -169,6 +196,8 @@ export default defineDb({
     Sponsors,
     Categories,
     SponsorCategories,
+    SponsorLevels,
+    EventSponsorLevels,
     Transactions,
     TransactionsStatuses,
     WithdrawStatuses,
