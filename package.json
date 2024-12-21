@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "dependencies": {
     "@astrojs/check": "^0.9.4",
-    "@astrojs/db": "^0.14.3",
+    "@astrojs/db": "^0.14.5",
     "@types/bcrypt": "^5.0.2",
-    "astro": "^4.16.15",
+    "astro": "^4.16.18",
     "bcrypt": "^5.1.1",
     "file-type": "^19.6.0",
-    "hono": "^4.6.12",
+    "hono": "^4.6.14",
     "nanoid": "^5.0.9",
     "typescript": "^5.7.2",
-    "wrangler": "^3.91.0"
+    "wrangler": "^3.99.0"
   },
   "scripts": {
     "dev": "astro dev",
